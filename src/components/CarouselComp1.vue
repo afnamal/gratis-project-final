@@ -1,5 +1,8 @@
 <template>
   <div class="q-pa-md">
+    <div class="q-mt-md" style="margin-left: 500px;">
+      <p style="opacity: 70%;">Toplam Submit Sayısı: {{ submitCountRef }}</p>
+    </div>
     <q-carousel
       animated
       v-model="slide"
@@ -21,7 +24,7 @@
       </q-carousel-slide>
     </q-carousel>
 
-    <div class="row justify-center q-mt-md" style="position: relative; z-index: 1;">
+    <div class="row justify-center q-mt-md" style="position: relative; z-index: 1; margin-top: 100px;">
       <div
         v-for="n in 4"
         :key="n"
@@ -29,8 +32,10 @@
         @click="goToSlide(n)"
       >
       </div>
+
     </div>
   </div>
+
 </template>
 
 <style scoped>
@@ -48,7 +53,9 @@
 }
 </style>
 
-<script>
+<script lang="ts">
+
+import { useAuthStore } from 'stores/auth'
 export default {
   data () {
     return {
@@ -58,6 +65,11 @@ export default {
   methods: {
     goToSlide (index) {
       this.slide = index
+    }
+  },
+  computed: {
+    submitCountRef () {
+      return useAuthStore().submitCount
     }
   }
 }

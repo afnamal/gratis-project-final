@@ -2,7 +2,7 @@
   <q-page class="flex flex-center">
     <div style="background-color: #f7f5f5; width: 80vw; height: 150px; position: absolute; top: 0;"></div>
 
-    <q-form @submit="onSubmit" class="q-gutter-md" style="max-width: 600px; width: 30%">
+    <q-form @submit="onSubmit" class="q-gutter-md" style="max-width:">
 
       <div class="q-mb-md text-h4 text-grey-8 text-center" style="width: 100%; opacity: 70%; margin-top: -75px; margin-bottom: 100px;">
         GİRİŞ YAP
@@ -45,11 +45,18 @@
       <div class="q-mt-md">
         <q-btn class="girisbtn" label="GİRİŞ YAP" type="submit" rounded style="height: 45px;width: 100%; font-size: medium;" />
       </div>
+      <div class="q-mt-md">
+        <p style="opacity: 70%;">Toplam Submit Sayısı: {{ submitCountRef }}</p>
+      </div>
     </q-form>
   </q-page>
 </template>
 
-<script>
+<script lang="ts">
+import { ref } from 'vue'
+import { getFirestore, collection, addDoc } from 'firebase/firestore'
+import { useAuthStore } from 'stores/auth'
+
 export default {
   data () {
     return {
@@ -58,14 +65,33 @@ export default {
       isPwd: false
     }
   },
+
   methods: {
-    onSubmit () {
-      // Handle form submission
+    async onSubmit () {
+      try {
+        const db = getFirestore()
+        const usersCollection = collection(db, 'kullanicilar')
+
+        await addDoc(usersCollection, {
+          email: this.email,
+          password: this.password
+        })
+
+        useAuthStore().incrementSubmitCount()
+
+        console.log('Kullanıcı bilgileri başarıyla Firestore\'a kaydedildi.')
+      } catch (error) {
+        console.error('Firestore kayıt işlemi sırasında bir hata oluştu:', error.message)
+      }
+    }
+  },
+  computed: {
+    submitCountRef () {
+      return useAuthStore().submitCount
     }
   }
 }
 </script>
-
 <style scoped>
 .overlay {
   display: flex;

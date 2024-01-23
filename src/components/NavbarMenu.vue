@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import { Navbar } from 'components/models'
+import { Navbar } from 'components/models.ts'
 import { ref } from 'vue'
 import MenuComponent from './MenuCOmponent.vue'
 

@@ -2,7 +2,7 @@
   <q-page class="q-pa-md">
     <div class="row items-center">
       <div class="col-auto" style="margin-top: 60px;">
-        <img style="width: 500px;" src="https://img.gratis.com/mnpadding/475/475/ffffff/h8b/had/8818714804254/10710660_01.jpg" alt="Product Image" class="product-image" />
+        <img style="width: 500px;" :src="productImage" alt="Product Image" class="product-image" />
       </div>
 
       <div class="col">
@@ -33,7 +33,35 @@
     </div>
   </q-page>
 </template>
+<script lang="ts">
+import { ref, onMounted } from 'vue'
+import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore'
 
+export default {
+  setup () {
+    const productImage = ref<string | null>(null)
+
+    onMounted(async () => {
+      try {
+        const db = getFirestore()
+        const productsCollection = collection(db, 'resimler')
+        const q = query(productsCollection, where('name', '==', 'urun'))
+
+        const querySnapshot = await getDocs(q)
+
+        if (!querySnapshot.empty) {
+          const urunDocument = querySnapshot.docs[0]
+          productImage.value = urunDocument.data().src
+        }
+      } catch (error) {
+        console.error('Error fetching product image:', error)
+      }
+    })
+
+    return { productImage }
+  }
+}
+</script>
 <style scoped>
 .product-image {
   width: 600px;

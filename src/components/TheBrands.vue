@@ -5,18 +5,15 @@
         <h1 style="font-size: 60px; opacity: 20%; color: rgb(236, 213, 213)222, 205, 205);">SADECE GRATİS'TE</h1>
       </div>
       <div class="row" style="margin-top: 40px;">
-        <div v-for="product in upperRowProducts" :key="product.id" class="col-lg-1.6" style="margin-left: 15px; margin-right: 15px;">
+        <div v-for="product in upperRowProducts" :key="product.id" class="col-lg-1" style="margin-left: 45px; margin-right: 45px;">
           <q-card class="custom-card" v-if="product.id !== 12">
-            <img :src="product.imageUrl" class="custom-image" />
+            <img :src="product.imageUrl" class="custom-image"/>
           </q-card>
-          <q-card v-else class="custom-card special-card" style="width: 150px; height: 65px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-            <span style="font-size: 12px; text-align: center;">Tüm markaları gör</span>
-            <q-icon name="arrow_forward" size="24px" color="purple" />
-          </q-card>
+
         </div>
       </div>
       <div class="row" style="margin-bottom: 60px; margin-top: 20px;">
-        <div v-for="product in lowerRowProducts" :key="product.id" class="col-lg-1.6" style="margin-left: 15px; margin-right: 15px; align-items: center;">
+        <div v-for="product in lowerRowProducts" :key="product.id" class="col-lg-1" style="margin-left: 45px; margin-right: 45px; align-items: center; ">
           <q-card class="custom-card" v-if="product.id !== 12">
             <img :src="product.imageUrl" class="custom-image" />
           </q-card>
